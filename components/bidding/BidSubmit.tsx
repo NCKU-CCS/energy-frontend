@@ -4,12 +4,12 @@ import styled from 'styled-components';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 
-const BidSubmitHeaders = {
-  'Content-Type': 'application/json',
-  Authorization:
-    'Bearer ' +
-    '3MaTIcta709SxWZ88OkaLjKvNzgfFkxqr8WemUjeOKLZcImscV6WcziuFyfrbXjc',
-};
+// const BidSubmitHeaders = {
+//   'Content-Type': 'application/json',
+//   Authorization:
+//     'Bearer ' +
+//     '3MaTIcta709SxWZ88OkaLjKvNzgfFkxqr8WemUjeOKLZcImscV6WcziuFyfrbXjc',
+// };
 
 const url_bidsubmit = 'http://140.116.247.120:5000' + '/bidsubmit';
 
@@ -35,7 +35,7 @@ const Field: ITableState = {
     {
       field: 'id',
       title: 'id',
-      type: 'string',
+      // type: 'string',
       hidden: true,
     },
     {
@@ -144,6 +144,13 @@ const BiddingMaterialTable = styled.div`
 const BiddingTable: React.FC<IProps> = ({ bidding_type }) => {
   const { t } = useTranslation();
   const [state] = React.useState<ITableState>(Field);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { bearer } = JSON.parse(localStorage.getItem('BEMS_user'));
+  //   })();
+  // }, []);
+
   return (
     <BiddingMaterialTable color={bidding_type}>
       <MaterialTable
@@ -172,13 +179,17 @@ const BiddingTable: React.FC<IProps> = ({ bidding_type }) => {
         }}
         columns={state.columns}
         data={async query => {
+          const { bearer } = JSON.parse(localStorage.getItem('BEMS_user'));
           const url = `${url_bidsubmit}?per_page=${
             query.pageSize
           }&page=${query.page + 1}&bid_type=${bidding_type}`;
 
           const result = await fetch(url, {
             method: 'get',
-            headers: new Headers(BidSubmitHeaders),
+            headers: new Headers({
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${bearer}`,
+            }),
           }).then(resp => resp.json());
           return {
             data: result.data,
@@ -201,9 +212,16 @@ const BiddingTable: React.FC<IProps> = ({ bidding_type }) => {
                   value: newData.volume,
                   price: newData.price,
                 };
+
+                const { bearer } = JSON.parse(
+                  localStorage.getItem('BEMS_user'),
+                );
                 fetch(url_bidsubmit, {
                   method: 'post',
-                  headers: new Headers(BidSubmitHeaders),
+                  headers: new Headers({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${bearer}`,
+                  }),
                   body: JSON.stringify(data),
                 }).then(response => response.json());
                 resolve();
@@ -224,9 +242,16 @@ const BiddingTable: React.FC<IProps> = ({ bidding_type }) => {
                   value: newData.volume,
                   price: newData.price,
                 };
+
+                const { bearer } = JSON.parse(
+                  localStorage.getItem('BEMS_user'),
+                );
                 fetch(url_bidsubmit, {
                   method: 'put',
-                  headers: new Headers(BidSubmitHeaders),
+                  headers: new Headers({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${bearer}`,
+                  }),
                   body: JSON.stringify(data),
                 }).then(response => response.json());
                 resolve();
@@ -236,9 +261,16 @@ const BiddingTable: React.FC<IProps> = ({ bidding_type }) => {
             new Promise(resolve => {
               setTimeout(() => {
                 const data = { id: oldData.id };
+
+                const { bearer } = JSON.parse(
+                  localStorage.getItem('BEMS_user'),
+                );
                 fetch(url_bidsubmit, {
                   method: 'delete',
-                  headers: new Headers(BidSubmitHeaders),
+                  headers: new Headers({
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${bearer}`,
+                  }),
                   body: JSON.stringify(data),
                 }).then(response => response.json());
                 resolve();
