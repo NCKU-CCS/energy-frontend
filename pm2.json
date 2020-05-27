@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "energy",
+      "script": "npx",
+      "args": "next dev -p 80"
+    }
+  ]
+}
