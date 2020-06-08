@@ -167,9 +167,9 @@ const PowerInfoTable: FunctionComponent = () => {
   const [chart_data, setChart] = useState<ICharts[]>([]);
 
   async function fetchMyAPI() {
-    const url = `${url_powerinfo}?start_time=${dayjs(selectedDate).format(
+    const url = `${url_powerinfo}?chart_date=${dayjs(selectedDate).format(
       'YYYY/MM/DD',
-    )}&end_time=${dayjs(selectedDate).format('YYYY/MM/DD')}`;
+    )}`;
 
     const { bearer } = JSON.parse(localStorage.getItem('BEMS_user'));
     const response = await fetch(url, {
