@@ -3,7 +3,7 @@
     {
       "name": "energy",
       "script": "npx",
-      "args": "next dev -p 80"
+      "args": "next start -p 80"
     }
   ]
 }
