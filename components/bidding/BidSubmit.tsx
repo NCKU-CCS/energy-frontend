@@ -1,17 +1,11 @@
-import React, { FunctionComponent, forwardRef, useEffect } from 'react';
+import React from 'react';
 import MaterialTable, { Column } from 'material-table';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
+import { runtimeConfig } from '../../utils';
 
-// const BidSubmitHeaders = {
-//   'Content-Type': 'application/json',
-//   Authorization:
-//     'Bearer ' +
-//     '3MaTIcta709SxWZ88OkaLjKvNzgfFkxqr8WemUjeOKLZcImscV6WcziuFyfrbXjc',
-// };
-
-const url_bidsubmit = 'http://140.116.247.120:5000' + '/bidsubmit';
+const url_bidsubmit = `${runtimeConfig.MAIN_HOST}/bidsubmit`;
 
 interface IProps {
   bidding_type: string;

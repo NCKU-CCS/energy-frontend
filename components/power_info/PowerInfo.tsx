@@ -19,15 +19,9 @@ import {
 } from '@material-ui/pickers';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { runtimeConfig } from '../../utils';
 
-// const PowerInfoHeaders = {
-//   'Content-Type': 'application/json',
-//   Authorization:
-//     'Bearer ' +
-//     '3MaTIcta709SxWZ88OkaLjKvNzgfFkxqr8WemUjeOKLZcImscV6WcziuFyfrbXjc',
-// };
-
-const url_powerinfo = 'http://140.116.247.120:5000' + '/power_info';
+const url_powerinfo = `${runtimeConfig.MAIN_HOST}/power_info`;
 
 interface IPowerInfoData {
   id: string;
