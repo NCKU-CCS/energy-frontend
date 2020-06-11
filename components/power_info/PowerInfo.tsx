@@ -19,15 +19,9 @@ import {
 } from '@material-ui/pickers';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { runtimeConfig } from '../../utils';
 
-const PowerInfoHeaders = {
-  'Content-Type': 'application/json',
-  Authorization:
-    'Bearer ' +
-    '3MaTIcta709SxWZ88OkaLjKvNzgfFkxqr8WemUjeOKLZcImscV6WcziuFyfrbXjc',
-};
-
-const url_powerinfo = 'http://140.116.247.120:5000' + '/power_info';
+const url_powerinfo = `${runtimeConfig.MAIN_HOST}/power_info`;
 
 interface IPowerInfoData {
   id: string;
@@ -47,7 +41,7 @@ const Field: ITableState = {
     {
       field: 'date',
       title: '日期',
-      type: 'string',
+      // type: 'string',
       cellStyle: {
         textAlign: 'center',
       },
@@ -55,7 +49,7 @@ const Field: ITableState = {
     {
       field: 'time',
       title: '紀錄時間',
-      type: 'string',
+      // type: 'string',
       cellStyle: {
         textAlign: 'center',
       },
@@ -63,7 +57,7 @@ const Field: ITableState = {
     {
       field: 'power_display',
       title: '度數(kWh)',
-      type: 'string',
+      // type: 'string',
       cellStyle: {
         textAlign: 'center',
       },
@@ -71,7 +65,7 @@ const Field: ITableState = {
     {
       field: 'data_type',
       title: '用產電種類',
-      type: 'string',
+      // type: 'string',
       cellStyle: {
         textAlign: 'center',
       },
@@ -79,7 +73,7 @@ const Field: ITableState = {
     {
       field: 'address',
       title: '連結',
-      type: 'string',
+      // type: 'string',
       cellStyle: {
         textAlign: 'center',
       },
@@ -167,12 +161,17 @@ const PowerInfoTable: FunctionComponent = () => {
   const [chart_data, setChart] = useState<ICharts[]>([]);
 
   async function fetchMyAPI() {
-    const url = `${url_powerinfo}?start_time=${dayjs(selectedDate).format(
+    const url = `${url_powerinfo}?chart_date=${dayjs(selectedDate).format(
       'YYYY/MM/DD',
-    )}&end_time=${dayjs(selectedDate).format('YYYY/MM/DD')}`;
+    )}`;
+
+    const { bearer } = JSON.parse(localStorage.getItem('BEMS_user'));
     const response = await fetch(url, {
       method: 'get',
-      headers: PowerInfoHeaders,
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${bearer}`,
+      }),
     }).then(resp => resp.json());
     setChart(response);
   }
@@ -285,9 +284,14 @@ const PowerInfoTable: FunctionComponent = () => {
             }&page=${query.page + 1}&time=${dayjs(selectedDate).format(
               'YYYY/MM/DD',
             )}`;
+
+            const { bearer } = JSON.parse(localStorage.getItem('BEMS_user'));
             const response = await fetch(url, {
               method: 'get',
-              headers: new Headers(PowerInfoHeaders),
+              headers: new Headers({
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${bearer}`,
+              }),
             });
             const result = await response.json();
             return {

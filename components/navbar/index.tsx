@@ -7,6 +7,7 @@ import Navlinks from './Navlinks';
 import { ClientStateContext } from '../../contexts/clientContext';
 import { runtimeConfig } from '../../utils';
 import { IUserInfo } from '../../constants';
+import { useRouter } from 'next/router';
 
 const getCurrentTime = () => dayjs().format('YYYY/MM/DD HH:mm');
 
@@ -61,6 +62,7 @@ const Nav: React.FC = () => {
     avatar: '',
   });
   const { user } = useContext(ClientStateContext);
+  const router = useRouter();
 
   // timer
   useEffect(() => {
@@ -86,6 +88,9 @@ const Nav: React.FC = () => {
           Authorization: `Bearer ${user.bearer}`,
         }),
       });
+      if (response.status === 401) {
+        router.push('/login');
+      }
       const rawData: IUserInfo = await response.json();
       setInfo(rawData);
     })();

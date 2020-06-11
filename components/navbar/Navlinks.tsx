@@ -77,7 +77,7 @@ const Navlinks: FunctionComponent = () => {
       ))}
       <Item>
         <img src="/static/nav/white_icon/logout_icon.png" />
-        <a href="/">{t('navbar.logout')}</a>
+        <a href="/login">{t('navbar.logout')}</a>
       </Item>
     </Container>
   );

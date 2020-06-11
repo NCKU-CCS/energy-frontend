@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "energy",
+      "script": "npx",
+      "args": "next start -p 6380"
+    }
+  ]
+}
