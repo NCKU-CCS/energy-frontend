@@ -70,8 +70,6 @@ const GraphContainer: React.FC = () => {
   let building3: HTMLImageElement;
   let building4: HTMLImageElement;
 
-  // useEffect(() => {console.log(lightingType)}, [lightingType]);
-
   // init data
   useEffect(() => {
     (async () => {
