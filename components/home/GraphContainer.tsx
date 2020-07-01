@@ -70,6 +70,8 @@ const GraphContainer: React.FC = () => {
   let building3: HTMLImageElement;
   let building4: HTMLImageElement;
 
+  // useEffect(() => {console.log(lightingType)}, [lightingType]);
+
   // init data
   useEffect(() => {
     (async () => {
@@ -180,20 +182,22 @@ const GraphContainer: React.FC = () => {
     }
 
     // draw achievement
-    for (let i = 0; i < lightingType.length; i++) {
-      if (lightingType[i] === 'off') {
+    for (const transaction of inputData.transactions) {
+      const index =
+        4 * buildings.indexOf(transaction.seller) +
+        buildings.indexOf(transaction.buyer);
+      if (lightingType[index] === 'off') {
         continue;
       }
       drawAchievement(
         ctx,
-        achieve_pos[i][0],
-        achieve_pos[i][1],
-        lightingType[i],
-        inputData.transactions[i % 4].achievement,
+        achieve_pos[index][0],
+        achieve_pos[index][1],
+        lightingType[index],
+        transaction.achievement,
       );
     }
 
-    //
     drawLightings(ctx, lightingType);
 
     // draw building
